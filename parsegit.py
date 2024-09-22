@@ -48,7 +48,7 @@ def get_repos_readmes(save_dir, repos):
       readme = request.read().decode()
 
       # create folder named after repo's name and save readme.md there
-      save_path = os.path.join(save_dir, repo['name'] + '/README.md')
+      save_path = os.path.join(save_dir, repo['name'])
       try:
           os.mkdir(save_path)
       except OSError as error:
