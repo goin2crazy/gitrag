@@ -52,7 +52,7 @@ def get_repos_readmes(save_dir, repos):
           os.mkdir(repo['name'])
       except OSError as error:
           print(error)
-      f = open(os.join(save_dir, repo['name'] + '/README.md'), 'w', encoding="utf-8")
+      f = open(os.path.join(save_dir, repo['name'] + '/README.md'), 'w', encoding="utf-8")
       f.write(readme)
       print('ok')
 
