@@ -43,7 +43,7 @@ class get_a_context():
         return context
 
 class Main(): 
-    def __init__(self, username): 
+    def __init__(self, username, model='gemini'): 
         # Parse the user repositories 
         save_user_repos('repositories', username)
         move_readme_files('repositories', STATIC_FILES_DIR)
@@ -60,14 +60,17 @@ class Main():
         # articles available here: {add GitHub repo}
         documents = SimpleDirectoryReader(statis_dir).load_data()
         self.get_context = get_a_context(documents)
-    
+        
+        if model == 'gemini': 
+            from gemini_model import GeminiInference
+            self.model = GeminiInference() 
+        elif model=='local': 
+            from local_model import LocalModel
+            self.model= LocalModel()
+        else: 
+            print('undefined type of model')
 
-        model_name = LLM_MODEL_NAME
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
-        self.model = AutoModelForCausalLM.from_pretrained(model_name,
-                                                    device_map="auto",
-                                                    trust_remote_code=False,
-                                                    revision="main")
+    
 
     def __call__(self, query): 
         
@@ -82,11 +85,6 @@ class Main():
         '{comment}'
         [/INST]
         """
-
-        with torch.no_grad(): 
-            prompt = prompt_template_w_context(context, query)
-
-            inputs = self.tokenizer(prompt, return_tensors="pt")
-            outputs = self.model.generate(input_ids=inputs["input_ids"].to("cuda"), max_new_tokens=MAX_NEW_TOKENS)
-
-            return (self.tokenizer.batch_decode(outputs)[0])
+        prompt = prompt_template_w_context(context, query)
+        return self.model(prompt)
+        

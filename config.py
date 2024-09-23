@@ -4,5 +4,6 @@ CHUNK_OVERLAP = 100
 STATIC_FILES_DIR ='articles'
 RETRIEVER_MODEL_NAME="intfloat/multilingual-e5-large"
 LLM_MODEL_NAME="TheBloke/Mistral-7B-Instruct-v0.2-GPTQ"
+GEMINI_MODEL='gemini-1.5-flash'
 
 MAX_NEW_TOKENS = 560
