@@ -30,6 +30,7 @@ class get_a_context():
             node_postprocessors=[SimilarityPostprocessor(similarity_cutoff=0.3)],
 
         )
+        self.top_k = top_k
 
     def __call__(self, query): 
         response = self.query_engine.query(query)
