@@ -19,6 +19,8 @@ def user_repos(username):
   return api_json
 
 def get_repos_readmes(save_dir, repos):
+  os.mkdir(save_dir)
+
   for repo in repos:
       full_name = repo['full_name']
       print('fetching readme from', full_name)
@@ -50,7 +52,6 @@ def get_repos_readmes(save_dir, repos):
       # create folder named after repo's name and save readme.md there
       save_path = os.path.join(save_dir, repo['name'])
       try:
-          os.mkdir(save_dir)
           os.mkdir(save_path)
 
       except OSError as error:
